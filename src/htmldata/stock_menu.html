@@ -1,0 +1,26 @@
+<div style="width:100%;height:auto;position:relative;padding:10px;">
+  <input id="_stockId" type="hidden"><br>
+  <div style="width:100%;overflow:auto;">
+    <div class="subCol" style="width:50%;">
+      <h6>Title</h6>
+      <input id="_stockTitle" class="form-control" type="text"><br>
+    </div>
+    <div class="subCol" style="width:50%;">
+      <h6>Unit</h6>
+      <input id="_stockUnit" class="form-control" type="text"><br>
+    </div>
+  </div>
+  <div style="width:100%;overflow:auto;">
+    <div class="subCol" style="width:50%;">
+      <h6>Quantity</h6>
+      <input id="_stockQuantity" class="form-control" type="number"><br>
+    </div>
+    <div class="subCol" style="width:50%;">
+      <h6>Buying Price</h6>
+      <input id="_stockBuyingPrice" class="form-control" type="number"><br>
+    </div>
+  </div>
+  <button onclick="setAlertDialog('Your changes will be saved', function(){updateStock()})" style="width:100%;height:50px;background:var(--primaryDarkColor);color:var(--accentColor);" class="btn shadowed">SAVE CHANGES</button>
+  <hr>
+  <button onclick="setAlertDialog('This item will be deleted!', function(){deleteStock()})" style="width:100%;height:50px;" class="btn shadowed btn-danger">DELETE ITEM</button>
+</div>

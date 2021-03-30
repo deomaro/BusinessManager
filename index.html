@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Business Manager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="src/css/bootstrap.min.css">
+		<link rel="stylesheet" href="src/css/main.css">
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="js/widgets.js" type="module"></script> -->
+    <script src="node_modules/lovefield/dist/lovefield.min.js"></script>
+    <script src="src/js/database.js"></script>
+    <script src="src/js/widgets.js"></script>
+		<script src="src/js/app.js"></script>
+  </head>
+  <body>
+    <div class="nToast" id="toast" onclick="$('#toast').fadeOut();">Hello world</div>
+    <div class="loader disable-select" id="loader">
+      <div class="loading"></div>
+    </div>
+
+    <div class="paper disable-select" onclick="closeOverlay()"></div>
+
+    <div class="topBar disable-select">
+      <h4>Business Manager &nbsp; >>>&nbsp;&nbsp; <span id="viewTitle">home</span></h4>
+
+      <img onclick="closeApp()" src="src/icons/close.png">
+      <img onclick="maximizeApp()" src="src/icons/maximize.png">
+      <img onclick="minimizeApp()" src="src/icons/minimize.png">
+    </div>
+
+    <div class="sideBar disable-select">
+      <div class="sideBarMenu">
+        <div class="sideBarMenuItem" id="homeNav" onclick="navTo('home')">
+          <img src="src/icons/home.png" class="sideBarMenuItemImg">
+          <div class="sideBarMenuItemInd"></div>
+        </div>
+        <div class="sideBarMenuItem" id="analysisNav" onclick="navTo('analysis')">
+          <img src="src/icons/reports.png" class="sideBarMenuItemImg">
+          <div class="sideBarMenuItemInd"></div>
+        </div>
+        <div class="sideBarMenuItem" id="settingsNav" onclick="navTo('settings')">
+          <img src="src/icons/settings.png" class="sideBarMenuItemImg">
+          <div class="sideBarMenuItemInd"></div>
+        </div>
+        <div class="sideBarMenuItem" id="moreNav" onclick="navTo('more')">
+          <img src="src/icons/info.png" class="sideBarMenuItemImg">
+          <div class="sideBarMenuItemInd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overLay disable-select" id="overLay">
+      <div class="overLayContent" id="overLayContent"></div>
+    </div>
+
+    <div class="alertDialog disable-select" id="alertDialog">
+      <div class="alertDialogContent" id="alertDialogContent"></div>
+      <hr>
+      <button class="alertDialogBtn btn" style="background:var(--primaryDarkColor);color:var(--accentColor);" id="alertDialogYes">Yes</button>
+      <button class="alertDialogBtn btn" style="background:var(--accentColor);" id="alertDialogNo">No</button>
+    </div>
+
+    <div class="viewContainer">
+      <div class="view" id="homeView">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12" style="overflow:auto;">
+              <h1 class="businessName">Business Name</h1>
+              <h5 style="color:var(--darkColor);">Summary</h5>
+
+              <hr>
+              <div style="width:100%;overflow:auto;">
+                <div class="subCol" style="width:45%;">
+                  <h5><b>Expenses</b></h5>
+                  <h2 class="totalExpenses">000</h2>
+                  <h6 class="businessCurrency" style="color:var(--darkColor);">Tsh</h6>
+                </div>
+
+                <div class="subCol" style="width:45%;">
+                  <h5><b>Income</b></h5>
+                  <h2 class="totalIncome">000</h2>
+                  <h6 class="businessCurrency" style="color:var(--darkColor);">Tsh</h6>
+                </div>
+              </div>
+              <hr>
+
+              <div style="width:100%;overflow:auto;">
+                <div class="subCol" style="width:45%;">
+                  <h5><b>Stock</b></h5>
+                  <h2 class="totalStock">000</h2>
+                  <h6 style="color:var(--darkColor);">Items</h6>
+                </div>
+
+                <div class="subCol" style="width:45%;">
+                  <h5><b>Profit</b></h5>
+                  <h2 class="totalProfit">000</h2>
+                  <h6 class="businessCurrency" style="color:var(--darkColor);">Tsh</h6>
+                </div>
+              </div>
+
+              <div class="container-fluid">
+                <div class="row" style="padding-bottom:30px;">
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding-bottom:10px;">
+                    <button onclick="setOverlay('src/htmldata/income_add.html')" class="btn btn-primary" style="width:100%;height:auto;">
+                      <img src="src/icons/income.png"><br>
+                      <h5><b>New Income</b></h5>
+                    </button>
+                  </div>
+
+                  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding-bottom:10px;">
+                    <button onclick="setOverlay('src/htmldata/expense_add.html')" class="btn btn-danger" style="width:100%;height:auto;">
+                      <img src="src/icons/expense.png"><br>
+                      <h5><b>New Expense</b></h5>
+                    </button>
+                  </div>
+
+                  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-bottom:10px;">
+                    <button onclick="viewStock()" class="btn btn-success" style="width:100%;height:auto;">
+                      <img src="src/icons/stock.png"><br>
+                      <h5><b>Stock Management</b></h5>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--VIEW BREAK--------->
+      <div class="view" id="analysisView">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12" style="overflow:auto;">
+              <h1 class="businessName">Business Name</h1>
+              <h5 style="color:var(--darkColor);">Analysis & Reports</h5>
+
+              <hr>
+              <h5><b>Income against time</b></h5>
+              <div style="width:100%;height:auto;overflow:auto;">
+                <div class="nGraph" id="iGraph">
+                </div>
+              </div>
+              <div style="width:100%;height:auto;overflow:auto;margin-top:20px;" id="iGraphFooter">
+              </div>
+              <hr>
+              <h5><b>Expenses against time</b></h5>
+              <div style="width:100%;height:auto;overflow:auto;">
+                <div class="nGraph" id="eGraph">
+                </div>
+              </div>
+              <div style="width:100%;height:auto;overflow:auto;margin-top:20px;" id="eGraphFooter">
+              </div>
+              <hr>
+              <div class="container">
+                <div class="row" style="padding-bottom:30px;">
+
+                  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-bottom:10px;">
+                    <h5><b>Periodic statement</b></h5>
+                    <div style="width:100%;overflow:auto;">
+                      <div class="subCol" style="width:50%;">
+                        <h6>To</h6>
+                        <input id="_toDate" class="form-control" type="date"><br>
+                      </div>
+                      <div class="subCol" style="width:50%;">
+                        <h6>From</h6>
+                        <input id="_fromDate" class="form-control" type="date"><br>
+                      </div>
+                    </div>
+
+                    <button onclick="getPeriodicStatement()" class="btn btn-primary" style="width:100%;height:auto;">
+                      <img src="icons/settings.png"><br>
+                      <h4>Generate Periodic Statement</h4>
+                    </button>
+                    <br><h4 style="text-align:center;margin-top:20px;">Then</h4><br>
+                    <button onclick="printPeriodicStatement()" class="btn btn-info" style="width:100%;height:auto;">
+                      <img src="icons/settings.png"><br>
+                      <h4>Print Periodic Statement</h4>
+                    </button>
+
+                    <div style="width:100%;padding:10px;margin-top:30px;height:auto;overflow:auto;display:none;" id="periodicStatement">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--VIEW BREAK--------->
+      <div class="view" id="settingsView">
+        <h4>Business Settings</h4>
+        <div class="container-fluid">
+          <div class="row" style="padding-bottom:30px;">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding-bottom:10px;">
+              <h6>Business Name</h6>
+              <input class="form-control" type="text" id="bizName"><br>
+
+              <h6>Business Currency</h6>
+              <input class="form-control" type="text" id="bizCurrency"><br>
+              <button onclick="updateBizInfo()" class="btn" style="width:100%;height:auto;background:var(--primaryDarkColor);color:var(--accentColor);">
+                UPDATE BUSINESS INFO
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--VIEW BREAK--------->
+      <div class="view" id="moreView">
+        <h2 class="text-dark">About</h2>
+        <blockquote class="blockquote">
+          <p class="mb-0">
+            Hello there. Business Manager (v1.0.1) was made to help small and medium businesses track and manage
+            well their financial progress. It is a simple yet powerful software package that anyone with little
+            computer literacy can use. Not all features are useful for all business but Business Manager's flexibility
+            allows users to choose what features they want to use. Some of the features include Stock taking, Financial Reports etc..
+          </p>
+
+          <br>
+          
+          <footer class="blockquote-footer">github.com/deomaro</footer>
+          <hr>
+          <p class="mb-0">
+            &copy;2021 Deomaro
+          </p>
+          <br>
+        </blockquote>
+      </div>
+    </div>
+
+
+  </body>
+</html>
